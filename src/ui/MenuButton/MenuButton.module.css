@@ -1,0 +1,36 @@
+.menu__button {
+    position: absolute;
+    left:-20px; top:-20px;
+    padding: 2px 2px 0 2px;
+    align-items: center;
+    transition: all 0.4s ease-in-out;
+}
+
+.first {
+    fill: white;
+    transition: all .4s ease-in-out;
+}
+
+.first_active {
+    rotate:45deg;
+    translate:8px -4px;
+    scale:1.2;
+}
+
+.second {
+    transition: all .4s ease-in-out;
+}
+
+.second_active {
+    fill: transparent;
+}
+
+.third {
+    transition: all .4s ease-in-out;
+}
+
+.third_active {
+    rotate: -45deg;
+    translate:-12px 8px;
+    scale:1.2;
+}
