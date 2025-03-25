@@ -20,78 +20,88 @@ export function SlotInside({ slotNumber, num }: ISlotLine) {
   const size = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setTimeout(() => {
-      // for (let i = 0; i < 18; i++) {
-      //   const divs = document.querySelectorAll(
-      //     `[aria-label='${i.toString()}']`
-      //   );
-      //   divs.forEach((div) => div.remove());
-      // }
-      // const divs2 = document.querySelectorAll(`[aria-label='18']`);
-      // // console.log(divs2);
-      // divs2.forEach((div) =>
-      //   div.animate(
-      //     { transform: 'translateY(1800px)' },
-      //     { duration: 2100, iterations: 1 }
-      //   )
-      // );
-    }, 2100);
+    if (touched > 0) {
+      setTimeout(
+        () => {
+          for (let i = 1; i <= 2 * slotsVariants; i++) {
+            const divs = document.querySelectorAll(
+              `[aria-label='${i.toString()}']`
+            );
+            divs.forEach((div) => div.remove());
+          }
+        },
+        rollDuration * 1000 + SlotsState.getState().slotsSizeCol * 100
+      );
+    }
   }, [touched]);
 
   let arr: number[] = [
-    touched < 2 ? slotsVariants : curValue.current,
     ...new Array(slotsVariants * 2)
       .fill(0)
       .map((_, i) => (i % slotsVariants) + 1),
+    touched < 2 ? slotsVariants : curValue.current,
   ];
 
   arr = shuffle(arr);
 
-  setTimeout(() => {
-    setFirstNumber(slotNumber[0], slotNumber[1], arr[arr.length - 1]);
-    curValue.current = arr[arr.length - 1];
-  }, rollDuration);
+  if (touched > 0) {
+    setTimeout(() => {
+      setFirstNumber(slotNumber[0], slotNumber[1], arr[0]);
+      curValue.current = arr[0];
+    }, 10);
+  }
 
-  return (
+  return touched > 0 ? (
     <>
-      <div className={styles.slot}>
-        <motion.div
-          layout
-          ref={size}
-          key={num}
-          // animate={touched > 0 ? { translateY: slotsVariants * 2 * -100 } : {}}
-          animate={
-            touched > 0
-              ? {
-                  translateY:
-                    slotsVariants *
+      <motion.div
+        ref={size}
+        key={num}
+        animate={
+          touched > 0
+            ? {
+                translateY: [
+                  slotsVariants *
                     2 *
                     -size.current!.getBoundingClientRect().width,
-                }
-              : {}
-          }
-          transition={{
-            duration: rollDuration,
-            delay: (slotNumber[0] + slotNumber[1]) / 10,
-          }}
-        >
-          {arr.map((item, index) => (
-            <div
-              className={styles.slot}
-              key={index}
-              aria-label={index.toString()}
-            >
-              <img
-                className={styles.image}
-                src={getImgUrl(slotType, `${slotType}-${item}`)}
-                alt={`${slotType}-${item}`}
-                // src={`./${slotType}-${item}.png`}
-                // alt={`${slotType}-${item}.png`}
-              />
-            </div>
-          ))}
-        </motion.div>
-      </div>
+                  0,
+                ],
+              }
+            : {}
+        }
+        transition={{
+          duration: rollDuration,
+          times: [0, 1],
+          delay: (slotNumber[0] + slotNumber[1]) / 10,
+        }}
+      >
+        {arr.map((item, index) => (
+          <div
+            className={styles.slot}
+            key={index}
+            aria-label={index.toString()}
+          >
+            <img
+              className={styles.image}
+              src={getImgUrl(slotType, `${slotType}-${item}`)}
+              alt={`${slotType}-${item}`}
+              // src={`./${slotType}-${item}.png`}
+              // alt={`${slotType}-${item}.png`}
+            />
+          </div>
+        ))}
+      </motion.div>
     </>
+  ) : (
+    <div ref={size}>
+      <div className={styles.slot}>
+        <img
+          className={styles.image}
+          src={getImgUrl(slotType, `${slotType}-${slotsVariants}`)}
+          alt={`${slotType}-${slotsVariants}`}
+          // src={`./${slotType}-${item}.png`}
+          // alt={`${slotType}-${item}.png`}
+        />
+      </div>
+    </div>
   );
 }

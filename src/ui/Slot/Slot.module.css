@@ -1,0 +1,10 @@
+.slot {
+    inline-size: clamp(30px,12.5vi,100px);
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.image {
+    inline-size: 100%;
+}

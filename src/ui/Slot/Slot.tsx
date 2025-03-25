@@ -8,8 +8,10 @@ interface ISlot {
 
 export function Slot({ slotNumber, num }: ISlot) {
   return (
-    <div className={styles.slot}>
-      <SlotInside slotNumber={slotNumber} num={num} />
-    </div>
+    <>
+      <div className={styles.slot}>
+        <SlotInside slotNumber={slotNumber} num={num} />
+      </div>
+    </>
   );
 }

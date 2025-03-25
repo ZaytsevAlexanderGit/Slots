@@ -2,13 +2,16 @@ import { SlotType } from '../assets/stores/slots-data/state.ts';
 import { useLayoutEffect, useState } from 'react';
 
 export function shuffle(array: number[]): number[] {
-  const ret = [array[0]];
-  const other = array.slice(1);
+  // const ret = [array[0]];
+  const ret = [array[array.length - 1]];
+  // const other = array.slice(1);
+  const other = array.slice(0, array.length - 1);
   for (let i = other.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [other[i], other[j]] = [other[j], other[i]];
   }
-  return ret.concat(other);
+  // return ret.concat(other);
+  return other.concat(ret);
 }
 
 export function createInitialArrayComplex(
