@@ -5,13 +5,13 @@ export type SlotType = 'numbers' | 'jewels';
 export interface SlotsGameState {
   type: SlotType;
   touched: number;
-  isAnimated: boolean;
+  isLoading: boolean;
   slotsVariants: number;
   slotsSizeRow: number;
   slotsSizeCol: number;
   firstNumbers: number[][];
   rollDuration: number;
-  isLoading: boolean;
+  winingCells: number[][][];
 }
 
 export interface SlotsGameAction {
@@ -19,9 +19,8 @@ export interface SlotsGameAction {
   resetTouched: () => void;
   increaseTouched: () => void;
   setLoading: (loading: boolean) => void;
-  setIsAnimated: (status: boolean) => void;
   setFirstNumber: (indexRow: number, indexCol: number, data: number) => void;
-  setAllFirstNumber: (data: number[][]) => void;
+  setWinningCells: (data: number[][][]) => void;
 }
 
 export const createRPSSlice: StateCreator<
@@ -31,7 +30,6 @@ export const createRPSSlice: StateCreator<
   SlotsGameState & SlotsGameAction
 > = (set) => ({
   type: 'numbers',
-  isAnimated: false,
   touched: 0,
   isLoading: false,
   slotsVariants: 9,
@@ -39,11 +37,11 @@ export const createRPSSlice: StateCreator<
   slotsSizeCol: 5,
   firstNumbers: [[0]],
   rollDuration: 1.5,
+  winingCells: [[[-1, -1]]],
   changeType: (type: SlotType) => set(() => ({ type: type })),
   increaseTouched: () => set((state) => ({ touched: state.touched + 1 })),
   resetTouched: () => set(() => ({ touched: 0 })),
   setLoading: (loading) => set(() => ({ isLoading: loading })),
-  setIsAnimated: (status) => set(() => ({ isAnimated: status })),
   setFirstNumber: (indexRow: number, indexCol: number, data: number) =>
     set((state) => ({
       firstNumbers: [
@@ -56,8 +54,5 @@ export const createRPSSlice: StateCreator<
         ...state.firstNumbers.slice(indexRow + 1),
       ],
     })),
-  setAllFirstNumber: (data: number[][]) =>
-    set(() => ({
-      firstNumbers: data,
-    })),
+  setWinningCells: (data: number[][][]) => set(() => ({ winingCells: data })),
 });

@@ -16,6 +16,7 @@ export const SlotsState = create<SlotsGameState & SlotsGameAction>()(
 SlotsState.setState({
   firstNumbers: createInitialArrayComplex(
     SlotsState.getState().slotsSizeRow,
-    SlotsState.getState().slotsSizeCol
+    SlotsState.getState().slotsSizeCol,
+    SlotsState.getState().slotsVariants
   ),
 });

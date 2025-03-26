@@ -1,4 +1,5 @@
 import { SlotsState } from '../../assets/stores/state.ts';
+import { checkWinningCombinations } from '../../shared/utils.ts';
 
 export function SpinButton() {
   const increaseTouched = SlotsState((state) => state.increaseTouched);
@@ -20,6 +21,7 @@ export function SpinButton() {
             if (e.target instanceof HTMLButtonElement) {
               e.target.disabled = false;
             }
+            checkWinningCombinations(SlotsState.getState().firstNumbers);
           },
           rollDuration * 1000 + (slotsSizeCol + slotsSizeRow - 1) * 100
         );

@@ -30,7 +30,10 @@ export function SlotInside({ slotNumber, num }: ISlotLine) {
             divs.forEach((div) => div.remove());
           }
         },
-        rollDuration * 1000 + SlotsState.getState().slotsSizeCol * 100
+        rollDuration * 1000 +
+          (SlotsState.getState().slotsSizeRow +
+            SlotsState.getState().slotsSizeCol) *
+            100
       );
     }
   }, [touched]);
@@ -38,7 +41,8 @@ export function SlotInside({ slotNumber, num }: ISlotLine) {
   let arr: number[] = [
     ...new Array(slotsVariants * 2)
       .fill(0)
-      .map((_, i) => (i % slotsVariants) + 1),
+      // .map((_, i) => (i % slotsVariants) + 1),
+      .map(() => Math.ceil(Math.random() * slotsVariants)),
     touched < 2 ? slotsVariants : curValue.current,
   ];
 
