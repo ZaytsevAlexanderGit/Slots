@@ -3,16 +3,30 @@ import { SlotInside } from '../../components/slot_inside/SlotInside.tsx';
 import { ClipLoader } from 'react-spinners';
 import { SpinButton } from '../SpinButton/SpinButton.tsx';
 import { SlotsState } from '../../assets/stores/state.ts';
-import { createInitialArrayComplex } from '../../shared/utils.ts';
+import {
+  checkWinningCombinations,
+  createInitialArrayAllData,
+  setWinningDataToState,
+} from '../../shared/utils.ts';
 
 export function Slot() {
-  const isLoading = SlotsState((state) => state.isLoading);
   const touched = SlotsState((state) => state.touched);
+  const isLoading = SlotsState((state) => state.isLoading);
 
   const slotsSizeRow = SlotsState((state) => state.slotsSizeRow);
   const slotsSizeCol = SlotsState((state) => state.slotsSizeCol);
 
-  const arr = createInitialArrayComplex(slotsSizeRow, slotsSizeCol, 0);
+  const arr = createInitialArrayAllData(slotsSizeRow, slotsSizeCol);
+
+  if (touched > 0) {
+    setTimeout(() => {
+      setWinningDataToState(arr);
+      setTimeout(() => {
+        checkWinningCombinations(SlotsState.getState().firstNumbers);
+      }, 0);
+    }, 0);
+  }
+
   return (
     <>
       <div className={'content__wrapper'}>
@@ -37,10 +51,14 @@ export function Slot() {
             />
           ) : (
             <>
-              {arr.map((elem, indRow) =>
-                elem.map((_, indCol) => (
+              {arr.map((row, indRow) =>
+                row.map((data, indCol) => (
                   <div className={styles.slot} key={`${indRow}-${indCol}`}>
-                    <SlotInside slotNumber={[indRow, indCol]} num={touched} />
+                    <SlotInside
+                      data={data}
+                      slotNumber={[indRow, indCol]}
+                      num={touched}
+                    />
                   </div>
                 ))
               )}

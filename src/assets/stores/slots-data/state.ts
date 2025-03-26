@@ -32,7 +32,7 @@ export const createRPSSlice: StateCreator<
   type: 'numbers',
   touched: 0,
   isLoading: false,
-  slotsVariants: 9,
+  slotsVariants: 3,
   slotsSizeRow: 3,
   slotsSizeCol: 5,
   firstNumbers: [[0]],

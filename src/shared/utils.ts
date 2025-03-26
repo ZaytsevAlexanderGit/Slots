@@ -23,6 +23,53 @@ export function createInitialArrayComplex(
   return Array.from({ length: sizeRow }, () => Array(sizeCol).fill(val));
 }
 
+function createRandomArray(variants: number, value: number): number[] {
+  let ret = [
+    ...new Array(variants * 2)
+      .fill(0)
+      .map(() => Math.ceil(Math.random() * variants)),
+    value,
+  ];
+  ret = shuffle(ret);
+  return ret;
+}
+
+export function createInitialArrayAllData(
+  sizeRow: number,
+  sizeCol: number
+  // val: number[][]
+): number[][][] {
+  const ret: number[][][] = Array.from({ length: sizeRow }, () =>
+    Array(sizeCol).fill(0)
+  );
+  ret.forEach((row, indRow) => {
+    row.forEach((_, indCol) => {
+      ret[indRow][indCol] = createRandomArray(
+        SlotsState.getState().slotsVariants,
+        SlotsState.getState().firstNumbers[indRow][indCol]
+      );
+    });
+  });
+  return ret;
+}
+
+export function setWinningDataToState(data: number[][][]) {
+  const updatedFirstNumbers = createInitialArrayComplex(
+    data.length,
+    data[0].length,
+    0
+  );
+  for (let row = 0; row < SlotsState.getState().slotsSizeRow; row++) {
+    for (let col = 0; col < SlotsState.getState().slotsSizeCol; col++) {
+      updatedFirstNumbers[row][col] = data[row][col][0];
+    }
+  }
+
+  SlotsState.setState(() => ({
+    firstNumbers: updatedFirstNumbers,
+  }));
+}
+
 export function toUpperFirstLetterCase(str: string): string {
   return str[0].toUpperCase() + str.slice(1);
 }
