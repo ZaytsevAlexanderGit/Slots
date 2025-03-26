@@ -37,7 +37,6 @@ function createRandomArray(variants: number, value: number): number[] {
 export function createInitialArrayAllData(
   sizeRow: number,
   sizeCol: number
-  // val: number[][]
 ): number[][][] {
   const ret: number[][][] = Array.from({ length: sizeRow }, () =>
     Array(sizeCol).fill(0)

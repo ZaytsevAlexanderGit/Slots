@@ -16,6 +16,25 @@ export function SlotInside({ data, slotNumber, num }: ISlotLine) {
   const slotsVariants = SlotsState((state) => state.slotsVariants);
   const rollDuration = SlotsState((state) => state.rollDuration);
 
+  const winingCells = SlotsState((state) => state.winingCells);
+
+  let checkIsGood = false;
+
+  if (winingCells[0] !== undefined && winingCells[0].length > 1) {
+    checkIsGood = winingCells
+      .map((elem) => {
+        return elem.map((sub) => {
+          return sub
+            .toString()
+            .includes([slotNumber[0], slotNumber[1]].toString());
+        });
+      })
+      .map((el) => {
+        return el.includes(true);
+      })
+      .includes(true);
+  }
+
   const size = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -62,10 +81,25 @@ export function SlotInside({ data, slotNumber, num }: ISlotLine) {
         }}
       >
         {data.map((item, index) => (
-          <div
+          <motion.div
             className={styles.slot}
             key={index}
             aria-label={index.toString()}
+            animate={
+              index === 0 && checkIsGood
+                ? {
+                    scale: [1, 1.05, 1, 1.1, 1.05],
+                    outline: ['none', 'none', 'none', 'none', '5px solid red'],
+                    outlineOffset: '-10px',
+                    borderRadius: '50%',
+                  }
+                : {}
+            }
+            transition={{
+              duration: 0.5,
+              times: [0, 0.25, 0.5, 0.75, 1],
+              delay: rollDuration + (slotNumber[0] + slotNumber[1] + 2) / 10,
+            }}
           >
             <img
               className={styles.image}
@@ -73,7 +107,7 @@ export function SlotInside({ data, slotNumber, num }: ISlotLine) {
               alt={`${slotType}-${item}`}
               // src={`./${slotType}-${item}.png`}
             />
-          </div>
+          </motion.div>
         ))}
       </motion.div>
     </>
