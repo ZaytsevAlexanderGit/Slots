@@ -111,7 +111,6 @@ export function SlotInside({ data, slotNumber, num }: ISlotLine) {
                       `5px solid ${colors[checkIsGood[1]]}`,
                     ],
                     outlineOffset: '-10px',
-                    // outlineOffset: `${offsets[checkIsGood[1]]}`,
                     borderRadius: '50%',
                   }
                 : {}
@@ -125,8 +124,8 @@ export function SlotInside({ data, slotNumber, num }: ISlotLine) {
           >
             <img
               className={styles.image}
-              src={getImgUrl(slotType, `${slotType}-${item}`)}
-              // src={`./${slotType}-${item}.png`}
+              // src={getImgUrl(slotType, `${slotType}-${item}`)}
+              src={`./${slotType}-${item}.png`}
               alt={`${slotType}-${item}`}
             />
           </motion.div>
@@ -138,8 +137,8 @@ export function SlotInside({ data, slotNumber, num }: ISlotLine) {
       <div className={styles.slot}>
         <img
           className={styles.image}
-          src={getImgUrl(slotType, `${slotType}-${slotsVariants}`)}
-          // src={`./${slotType}-${slotsVariants}.png`}
+          // src={getImgUrl(slotType, `${slotType}-${slotsVariants}`)}
+          src={`./${slotType}-${slotsVariants}.png`}
           alt={`${slotType}-${slotsVariants}`}
         />
       </div>
