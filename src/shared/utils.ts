@@ -1,5 +1,5 @@
 import { SlotType } from '../assets/stores/slots-data/state.ts';
-import { winCombinations } from './constants.ts';
+import { winCombinationsObject } from './constants.ts';
 import { SlotsState } from '../assets/stores/state.ts';
 
 export function shuffle(array: number[]): number[] {
@@ -63,7 +63,6 @@ export function setWinningDataToState(data: number[][][]) {
       updatedFirstNumbers[row][col] = data[row][col][0];
     }
   }
-
   SlotsState.setState(() => ({
     firstNumbers: updatedFirstNumbers,
   }));
@@ -81,11 +80,13 @@ export function getImgUrl(folderName: SlotType, fileName: string): string {
 }
 
 export function checkWinningCombinations(data: number[][]): void {
-  const ret: number[][][] = [[[]]];
-  winCombinations.forEach((el) => {
+  let ret: { type: string; value: number; combination: number[][] }[] = [
+    { type: 'blank', value: -1, combination: [[]] },
+  ];
+  winCombinationsObject.forEach((el) => {
     let flag = 0;
     let check = -1;
-    el.forEach((elem, index) => {
+    el.combination.forEach((elem, index) => {
       if (index === 0) {
         check = data[elem[0]][elem[1]];
       } else {
@@ -95,10 +96,41 @@ export function checkWinningCombinations(data: number[][]): void {
       }
     });
     if (flag === 0) {
-      ret.push(el);
+      let flag2 = 0;
+      ret.forEach((elem) => {
+        if (elem.type === el.type && el.value > elem.value) {
+          flag2 = 1;
+          ret = ret.filter((data) => data.type !== elem.type);
+          ret.push(el);
+        }
+      });
+      if (flag2 === 0) {
+        ret.push(el);
+      }
     }
   });
+  ret = ret.slice(1);
+  const finalData = {
+    value: -1,
+    combination: [[[]]] as number[][][],
+  };
+  ret.forEach((element) => {
+    finalData.value += element.value;
+    finalData.combination.push(element.combination);
+  });
+  setTimeout(
+    () => {
+      SlotsState.setState((state) => ({
+        balance: state.balance + finalData.value,
+      }));
+    },
+    SlotsState.getState().rollDuration * 1000 +
+      (SlotsState.getState().slotsSizeRow +
+        SlotsState.getState().slotsSizeCol -
+        2) *
+        100
+  );
   SlotsState.setState({
-    winingCells: ret.slice(1),
+    winingCells: finalData.combination.slice(1),
   });
 }

@@ -4,6 +4,7 @@ export type SlotType = 'numbers' | 'jewels';
 
 export interface SlotsGameState {
   type: SlotType;
+  balance: number;
   touched: number;
   isLoading: boolean;
   slotsVariants: number;
@@ -30,9 +31,10 @@ export const createRPSSlice: StateCreator<
   SlotsGameState & SlotsGameAction
 > = (set) => ({
   type: 'numbers',
+  balance: 100,
   touched: 0,
   isLoading: false,
-  slotsVariants: 9,
+  slotsVariants: 2,
   slotsSizeRow: 3,
   slotsSizeCol: 5,
   firstNumbers: [[]] as number[][],

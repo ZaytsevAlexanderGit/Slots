@@ -18,10 +18,11 @@ export function SlotInside({ data, slotNumber, num }: ISlotLine) {
 
   const winingCells = SlotsState((state) => state.winingCells);
 
-  let checkIsGood = false;
+  const checkIsGood: [boolean, number] = [false, -1];
+  const colors = ['red', 'blue', 'green', 'yellow', 'purple'];
 
   if (winingCells[0] !== undefined && winingCells[0].length > 1) {
-    checkIsGood = winingCells
+    checkIsGood[0] = winingCells
       .map((elem) => {
         return elem.map((sub) => {
           return sub
@@ -33,6 +34,19 @@ export function SlotInside({ data, slotNumber, num }: ISlotLine) {
         return el.includes(true);
       })
       .includes(true);
+    if (checkIsGood[0])
+      checkIsGood[1] = winingCells
+        .map((elem) => {
+          return elem.map((sub) => {
+            return sub
+              .toString()
+              .includes([slotNumber[0], slotNumber[1]].toString());
+          });
+        })
+        .map((el) => {
+          return el.includes(true);
+        })
+        .lastIndexOf(true);
   }
 
   const size = useRef<HTMLDivElement>(null);
@@ -86,16 +100,24 @@ export function SlotInside({ data, slotNumber, num }: ISlotLine) {
             key={index}
             aria-label={index.toString()}
             animate={
-              index === 0 && checkIsGood
+              index === 0 && checkIsGood[0]
                 ? {
                     scale: [1, 1.05, 1, 1.1, 1.05],
-                    outline: ['none', 'none', 'none', 'none', '5px solid red'],
+                    outline: [
+                      'none',
+                      'none',
+                      'none',
+                      'none',
+                      `5px solid ${colors[checkIsGood[1]]}`,
+                    ],
                     outlineOffset: '-10px',
+                    // outlineOffset: `${offsets[checkIsGood[1]]}`,
                     borderRadius: '50%',
                   }
                 : {}
             }
             transition={{
+              repeat: 3,
               duration: 0.5,
               times: [0, 0.25, 0.5, 0.75, 1],
               delay: rollDuration + (slotNumber[0] + slotNumber[1] + 2) / 10,
@@ -104,8 +126,8 @@ export function SlotInside({ data, slotNumber, num }: ISlotLine) {
             <img
               className={styles.image}
               src={getImgUrl(slotType, `${slotType}-${item}`)}
-              alt={`${slotType}-${item}`}
               // src={`./${slotType}-${item}.png`}
+              alt={`${slotType}-${item}`}
             />
           </motion.div>
         ))}
@@ -117,8 +139,8 @@ export function SlotInside({ data, slotNumber, num }: ISlotLine) {
         <img
           className={styles.image}
           src={getImgUrl(slotType, `${slotType}-${slotsVariants}`)}
+          // src={`./${slotType}-${slotsVariants}.png`}
           alt={`${slotType}-${slotsVariants}`}
-          // src={`./${slotType}-${item}.png`}
         />
       </div>
     </div>
