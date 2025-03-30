@@ -3,6 +3,11 @@
     aspect-ratio: 1/1;
     overflow: hidden;
     border-radius: 50%;
+    justify-self: center;
+}
+
+.slot:has([aria-label='win']) {
+    overflow: visible;
 }
 
 .image {

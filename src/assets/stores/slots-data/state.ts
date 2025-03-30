@@ -34,7 +34,7 @@ export const createRPSSlice: StateCreator<
   balance: 100,
   touched: 0,
   isLoading: false,
-  slotsVariants: 5, //Should be from 2 to 9
+  slotsVariants: 2, //Should be from 2 to 9
   slotsSizeRow: 3,
   slotsSizeCol: 5,
   firstNumbers: [[]] as number[][],

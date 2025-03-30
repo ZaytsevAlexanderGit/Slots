@@ -18,6 +18,8 @@
 .title {
   font-size: 3rem;
   color: #747bff;
+  inline-size: 100%;
+
 }
 
 .content__wrapper {
