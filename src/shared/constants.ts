@@ -185,3 +185,10 @@ export const winCombinationsObject: winComb[] = [
     ],
   },
 ];
+
+export const colorsArray = [] as string[];
+for (let i = 0; i < 255; i++) {
+  colorsArray.push(
+    `rgb(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)})`
+  );
+}

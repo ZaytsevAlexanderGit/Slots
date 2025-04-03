@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { getImgUrl } from '../../shared/utils.ts';
 import { SlotsState } from '../../assets/stores/state.ts';
 import { useEffect, useRef } from 'react';
+import { colorsArray } from '../../shared/constants.ts';
 
 interface ISlotLine {
   data: number[];
@@ -19,7 +20,6 @@ export function SlotInside({ data, slotNumber, num }: ISlotLine) {
   const winingCells = SlotsState((state) => state.winingCells);
 
   const checkIsGood: [boolean, number[]] = [false, [-1]];
-  const colorsArray = ['red', 'blue', 'green', 'yellow', 'purple'];
 
   const timings: number[] = [];
   const colors: string[] = [];
@@ -122,7 +122,6 @@ export function SlotInside({ data, slotNumber, num }: ISlotLine) {
           delay: (slotNumber[0] + slotNumber[1]) / 10,
         }}
         className={`classToFind_${slotNumber[0]}_${slotNumber[1]}`}
-        // aria-label={checkIsGood[0] ? 'win' : ''}
       >
         {data.map((item, index) => (
           <motion.div
@@ -158,8 +157,8 @@ export function SlotInside({ data, slotNumber, num }: ISlotLine) {
           >
             <img
               className={styles.image}
-              src={getImgUrl(slotType, `${slotType}-${item}`)}
-              // src={`./${slotType}-${item}.png`}
+              // src={getImgUrl(slotType, `${slotType}-${item}`)}
+              src={`./${slotType}-${item}.png`}
               alt={`${slotType}-${item}`}
             />
           </motion.div>
@@ -171,8 +170,8 @@ export function SlotInside({ data, slotNumber, num }: ISlotLine) {
       <div className={styles.slot}>
         <img
           className={styles.image}
-          src={getImgUrl(slotType, `${slotType}-${slotsVariants}`)}
-          // src={`./${slotType}-${slotsVariants}.png`}
+          // src={getImgUrl(slotType, `${slotType}-${slotsVariants}`)}
+          src={`./${slotType}-${slotsVariants}.png`}
           alt={`${slotType}-${slotsVariants}`}
         />
       </div>

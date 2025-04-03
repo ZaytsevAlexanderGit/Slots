@@ -4,8 +4,9 @@ import { ClipLoader } from 'react-spinners';
 import { SpinButton } from '../SpinButton/SpinButton.tsx';
 import { SlotsState } from '../../assets/stores/state.ts';
 import {
-  checkWinningCombinations,
+  // checkWinningCombinations,
   createInitialArrayAllData,
+  findWinningCombinations,
   setWinningDataToState,
 } from '../../shared/utils.ts';
 
@@ -22,7 +23,8 @@ export function Slot() {
     setTimeout(() => {
       setWinningDataToState(arr);
       setTimeout(() => {
-        checkWinningCombinations(SlotsState.getState().firstNumbers);
+        // checkWinningCombinations(SlotsState.getState().firstNumbers);
+        findWinningCombinations(SlotsState.getState().firstNumbers);
       }, 0);
     }, 0);
   }
